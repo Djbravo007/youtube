@@ -861,3 +861,13 @@ extension.skeleton.header.sectionEnd.menu.on.click.settings.on.click.secondSecti
 		}
 	}
 };
+/*--------------------------------------------------------------
+# autoplay feature
+--------------------------------------------------------------*/
+
+"autoPausePlaylist": {
+  "value": false,
+  "category": "Playback",
+  "description": "Auto-pause video near the end if it's part of a playlist"
+},
+
