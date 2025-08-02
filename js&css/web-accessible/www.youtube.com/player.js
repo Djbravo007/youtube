@@ -1780,3 +1780,47 @@ ImprovedTube.redirectShortsToWatch = function () {
         }
     }
 };
+
+
+/*------------------------------------------------------------------------------
+autoplay pause for next video
+------------------------------------------------------------------------------*/
+function injectAutoPauseToggle() {
+  const controls = document.querySelector('.ytp-right-controls');
+  if (!controls || document.getElementById('auto-pause-toggle')) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'auto-pause-toggle';
+  btn.className = 'ytp-button';
+  btn.title = 'Toggle Auto-Pause Playlist';
+  btn.textContent = '⏸️';
+  btn.style.fontSize = '16px';
+  btn.style.padding = '2px';
+  btn.style.marginLeft = '8px';
+
+  btn.onclick = () => {
+    settings.autoPausePlaylist = !settings.autoPausePlaylist;
+    btn.style.opacity = settings.autoPausePlaylist ? '1.0' : '0.5';
+    saveSettings && saveSettings();
+  };
+
+  btn.style.opacity = settings.autoPausePlaylist ? '1.0' : '0.5';
+  controls.appendChild(btn);
+}
+
+// Call this after player loads
+setTimeout(injectAutoPauseToggle, 2000);
+
+setInterval(() => {
+  const video = document.querySelector('video');
+  if (!video) return;
+
+  const isPlaylist = location.href.includes("list=");
+  const isEnabled = settings.autoPausePlaylist;
+
+  if (isEnabled && isPlaylist && video.duration - video.currentTime < 1) {
+    video.pause();
+  }
+}, 500);
+
+
