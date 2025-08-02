@@ -1780,3 +1780,34 @@ ImprovedTube.redirectShortsToWatch = function () {
         }
     }
 };
+
+/*------------------------------------------------------------------------------
+Autopause ater end of video
+------------------------------------------------------------------------------*/
+
+function injectAutoPauseToggle() {
+  const controls = document.querySelector('.ytp-right-controls');
+  if (!controls || document.getElementById('auto-pause-toggle')) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'auto-pause-toggle';
+  btn.className = 'ytp-button';
+  btn.title = 'Toggle Auto-Pause Playlist';
+  btn.textContent = '⏸️';
+  btn.style.fontSize = '16px';
+  btn.style.padding = '2px';
+  btn.style.marginLeft = '8px';
+
+  btn.onclick = () => {
+    settings.autoPausePlaylist = !settings.autoPausePlaylist;
+    btn.style.opacity = settings.autoPausePlaylist ? '1.0' : '0.5';
+    saveSettings && saveSettings();
+  };
+
+  btn.style.opacity = settings.autoPausePlaylist ? '1.0' : '0.5';
+  controls.appendChild(btn);
+}
+
+// Call this after player loads
+setTimeout(injectAutoPauseToggle, 2000);
+
